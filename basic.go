@@ -37,6 +37,7 @@ func variableShorter() {
 	fmt.Println(a, b, s)
 }
 
+// const can be use by any relative type
 func consts() {
 	const filename string = "abc.txt"
 	const b = 4
@@ -44,6 +45,27 @@ func consts() {
 	var c int
 	c = int(math.Sqrt(float64(a*a) + b*b))
 	fmt.Println(filename, c)
+}
+
+func enums() {
+	const (
+		cpp = iota
+		java
+		python
+		golang
+		javascript
+	)
+	fmt.Println(cpp, java, python, golang, javascript)
+
+	const (
+		b = 1 << (10 * iota)
+		kb
+		mb
+		gb
+		tb
+		pb
+	)
+	fmt.Println(b, kb, mb, gb, tb, pb)
 }
 
 func main() {
@@ -54,4 +76,5 @@ func main() {
 	variableShorter()
 	fmt.Println(aa, aa1, ss, ss1)
 	consts()
+	enums()
 }
