@@ -9,6 +9,11 @@ type myTreeNode struct {
 	node *tree.Node
 }
 
+// Embedding
+type myTreeNode1 struct {
+	*tree.Node
+}
+
 func (myNode *myTreeNode) postOrder() {
 	if myNode == nil || myNode.node == nil {
 		return
