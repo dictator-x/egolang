@@ -6,15 +6,15 @@ import (
 )
 
 func main() {
-	var root tree.TreeNode
+	var root tree.Node
 
-	root = tree.TreeNode{Value: 3}
-	root.Left = &tree.TreeNode{}
-	root.Right = &tree.TreeNode{5, nil, nil}
-	root.Right.Left = new(tree.TreeNode)
+	root = tree.Node{Value: 3}
+	root.Left = &tree.Node{}
+	root.Right = &tree.Node{5, nil, nil}
+	root.Right.Left = new(tree.Node)
 	root.Left.Right = tree.CreateNode(2)
 
-	nodes := []tree.TreeNode{
+	nodes := []tree.Node{
 		{Value: 3},
 		{},
 		{6, nil, &root},

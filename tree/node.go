@@ -4,29 +4,19 @@ import (
 	"fmt"
 )
 
-type TreeNode struct {
+type Node struct {
 	Value       int
-	Left, Right *TreeNode
+	Left, Right *Node
 }
 
-func CreateNode(value int) *TreeNode {
-	return &TreeNode{Value: value}
+func CreateNode(value int) *Node {
+	return &Node{Value: value}
 }
 
-func (node *TreeNode) setValue(value int) {
+func (node *Node) setValue(value int) {
 	node.Value = value
 }
 
-func (node *TreeNode) Traverse() {
-	if node == nil {
-		return
-	}
-
-	node.Left.Traverse()
-	node.Print()
-	node.Right.Traverse()
-}
-
-func (node TreeNode) Print() {
+func (node Node) Print() {
 	fmt.Print(node.Value, " ")
 }
