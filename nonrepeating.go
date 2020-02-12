@@ -5,11 +5,11 @@ import (
 )
 
 func lengthOfNoRepeatingSubStr(s string) int {
-	lastOccurred := make(map[byte]int)
+	lastOccurred := make(map[rune]int)
 	start := 0
 	maxLength := 0
 
-	for i, ch := range []byte(s) {
+	for i, ch := range []rune(s) {
 		if lastI, ok := lastOccurred[ch]; ok && lastI >= start {
 			start = lastI + 1
 		}
