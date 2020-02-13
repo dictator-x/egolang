@@ -1,7 +1,8 @@
 package main
 
 import (
-	"eg/egolang/retriever/mock"
+	// "eg/egolang/retriever/mock"
+	"eg/egolang/retriever/real"
 	"fmt"
 )
 
@@ -10,11 +11,11 @@ type Retriever interface {
 }
 
 func download(r Retriever) string {
-	return r.Get("www.imooc.com")
+	return r.Get("http://www.imooc.com")
 }
 
 func main() {
 	var r Retriever
-	r = mock.Retriever{"fake content"}
+	r = real.Retriever{}
 	fmt.Println(download(r))
 }
