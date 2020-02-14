@@ -68,6 +68,11 @@ func enums() {
 	fmt.Println(b, kb, mb, gb, tb, pb)
 }
 
+func calcTriangle(a, b int) int {
+	c := int(math.Sqrt(float64(a*a + b*b)))
+	return c
+}
+
 func main() {
 	fmt.Println(runtime.GOARCH)
 	variableZeroValue()

@@ -13,7 +13,7 @@ func adder() func(int) int {
 type iAdder func(int) (int, iAdder)
 
 func adder2(base int) iAdder {
-	return func(v int) (int, IAdder) {
+	return func(v int) (int, iAdder) {
 		return base + v, adder2(base + v)
 	}
 }
