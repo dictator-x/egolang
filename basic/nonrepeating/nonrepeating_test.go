@@ -18,3 +18,21 @@ func TestSubstr(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkSubstr(b *testing.B) {
+	s := "abcabcbb"
+	for i := 0; i < 15; i++ {
+		s = s + s
+	}
+	r := 3
+
+	b.Logf("len(s) = %d", len(s))
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		if actual := lengthOfNoRepeatingSubStr(s); actual != r {
+			b.Errorf("got %d for input %s; expect %d", actual, s, r)
+		}
+	}
+
+}
