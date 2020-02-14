@@ -2,6 +2,7 @@ package main
 
 import (
 	"eg/egolang/errhandling/filelistingserver/filelisting"
+	"log"
 	"net/http"
 	"os"
 )
@@ -14,10 +15,13 @@ func errWrapper(handler appHandler) func(http.ResponseWriter, *http.Request) {
 		err := handler(writer, request)
 		// Handler error.
 		if err != nil {
+			log.Printf("Error handling request: %s", err.Error())
 			code := http.StatusOK
 			switch {
 			case os.IsNotExist(err):
 				code = http.StatusNotFound
+			case os.IsPermission(err):
+				code = http.StatusForbidden
 			default:
 				code = http.StatusInternalServerError
 			}
