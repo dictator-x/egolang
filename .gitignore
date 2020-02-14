@@ -1,3 +1,5 @@
 .vscode
 go.sum
 .DS_store
+*.out
+*.test
