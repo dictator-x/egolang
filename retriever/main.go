@@ -42,6 +42,7 @@ func session(s RetrieverPoster) string {
 }
 
 func inspect(r Retriever) {
+	fmt.Println("Inspecting", r)
 	switch v := r.(type) {
 	case *mock.Retriever:
 		fmt.Println("Contents", v.Contents)
@@ -55,7 +56,6 @@ func main() {
 	var r Retriever
 
 	rmock := &mock.Retriever{"this is fack"}
-	fmt.Printf("%T %v\n", r, r)
 
 	fmt.Println("session")
 	fmt.Println(session(rmock))
