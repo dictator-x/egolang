@@ -46,20 +46,20 @@ func noError(writer http.ResponseWriter, request *http.Request) error {
 	return nil
 }
 
-func TestErrWrappper(t *testing.T) {
-	tests := []struct {
-		h       appHandler
-		code    int
-		message string
-	}{
-		{errPanic, 500, "Internal Server Error"},
-		{errUserError, 400, "user error"},
-		{errNotFound, 404, "Not Found"},
-		{errNoPermission, 403, "Forbidden"},
-		{errUnknown, 500, "Internal Server Error"},
-		{noError, 200, "no error"},
-	}
+var tests = []struct {
+	h       appHandler
+	code    int
+	message string
+}{
+	{errPanic, 500, "Internal Server Error"},
+	{errUserError, 400, "user error"},
+	{errNotFound, 404, "Not Found"},
+	{errNoPermission, 403, "Forbidden"},
+	{errUnknown, 500, "Internal Server Error"},
+	{noError, 200, "no error"},
+}
 
+func TestErrWrappper(t *testing.T) {
 	for _, tt := range tests {
 		f := errWrapper(tt.h)
 		response := httptest.NewRecorder()
@@ -77,6 +77,22 @@ func TestErrWrappper(t *testing.T) {
 			t.Errorf("expect(%d, %s); got (%d, %s)",
 				tt.code, tt.message,
 				response.Code, body)
+		}
+	}
+}
+
+func TestErrWrapperInServer(t *testing.T) {
+	for _, tt := range tests {
+		f := errWrapper(tt.h)
+		server := httptest.NewServer(http.HandlerFunc(f))
+		resp, _ := http.Get(server.URL)
+
+		b, _ := ioutil.ReadAll(resp.Body)
+		body := strings.Trim(string(b), "\n")
+		if resp.StatusCode != tt.code || body != tt.message {
+			t.Errorf("expect(%d, %s); got (%d, %s)",
+				tt.code, tt.message,
+				resp.StatusCode, body)
 		}
 	}
 }
