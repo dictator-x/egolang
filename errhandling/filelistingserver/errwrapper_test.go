@@ -71,13 +71,7 @@ func TestErrWrappper(t *testing.T) {
 
 		f(response, request)
 
-		b, _ := ioutil.ReadAll(response.Body)
-		body := strings.Trim(string(b), "\n")
-		if response.Code != tt.code || body != tt.message {
-			t.Errorf("expect(%d, %s); got (%d, %s)",
-				tt.code, tt.message,
-				response.Code, body)
-		}
+		verifyResponse(response.Result(), tt.code, tt.message, t)
 	}
 }
 
@@ -87,12 +81,22 @@ func TestErrWrapperInServer(t *testing.T) {
 		server := httptest.NewServer(http.HandlerFunc(f))
 		resp, _ := http.Get(server.URL)
 
-		b, _ := ioutil.ReadAll(resp.Body)
-		body := strings.Trim(string(b), "\n")
-		if resp.StatusCode != tt.code || body != tt.message {
-			t.Errorf("expect(%d, %s); got (%d, %s)",
-				tt.code, tt.message,
-				resp.StatusCode, body)
-		}
+		verifyResponse(resp, tt.code, tt.message, t)
 	}
+}
+
+func verifyResponse(
+	resp *http.Response,
+	expectedCode int,
+	expectedMsg string,
+	t *testing.T) {
+
+	b, _ := ioutil.ReadAll(resp.Body)
+	body := strings.Trim(string(b), "\n")
+	if resp.StatusCode != expectedCode || body != expectedMsg {
+		t.Errorf("expect(%d, %s); got (%d, %s)",
+			expectedCode, expectedMsg,
+			resp.StatusCode, body)
+	}
+
 }
