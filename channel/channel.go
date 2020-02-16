@@ -16,11 +16,13 @@ func worker(id int, c chan int) {
 		fmt.Printf("Worker %d receiver %d\n", id, n)
 	}
 }
+
 func createWorker(id int) chan<- int {
 	c := make(chan int)
 	go worker(id, c)
 	return c
 }
+
 func chanDemo() {
 	var channels [10]chan<- int
 	for i := 0; i < 10; i++ {
