@@ -1,45 +1,19 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"golang.org/x/net/html/charset"
-	"golang.org/x/text/encoding"
-	"golang.org/x/text/transform"
-	"io"
-	"io/ioutil"
-	"net/http"
+	"eg/egolang/crawler/engine"
+	"eg/egolang/crawler/zhenai/parser"
 )
 
 func main() {
-	resp, err := http.Get("http://www.zhenai.com/zhenghun")
-	if err != nil {
-		panic(err)
-	}
+	// resp, err := http.Get("http://www.zhenai.com/zhenghun")
 
-	defer resp.Body.Close()
+	engine.Run(engine.Request{
+		Url:        "http://www.zhenai.com/zhenghun",
+		ParserFunc: parser.ParseCityList,
+	})
 
-	if resp.StatusCode != http.StatusOK {
-		fmt.Println("Error: status code", resp.StatusCode)
-		return
-	}
+	// fmt.Printf("%s\n", all)
+	// printCityList(all)
 
-	e := determineEncoding(resp.Body)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
-
-	all, err := ioutil.ReadAll(utf8Reader)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%s\n", all)
-
-}
-
-func determineEncoding(r io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(r).Peek(1024)
-	if err != nil {
-		panic(err)
-	}
-	e, _, _ := charset.DetermineEncoding(bytes, "")
-	return e
 }
