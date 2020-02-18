@@ -17,7 +17,7 @@ func tryDefer() {
 }
 
 func writeFile(filename string) {
-	file, err := os.OpenFile(filename, os.O_EXCL|os.O_CREATE, 0666)
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		fmt.Println("Error: ", err.Error())
 		if pathError, ok := err.(*os.PathError); !ok {
