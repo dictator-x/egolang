@@ -20,11 +20,8 @@ func ParseCity(contents []byte) engine.ParseResult {
 			engine.Request{
 				Url: string(m[1]),
 				ParserFunc: func(contents []byte) engine.ParseResult {
-					return engine.ParseResult{}
+					return ParseProfile(contents, name)
 				},
-				// ParserFunc: func(contents []byte) engine.ParseResult {
-				// 	return ParseProfile(contents, name)
-				// },
 			},
 		)
 	}
