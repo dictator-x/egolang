@@ -13,10 +13,11 @@ var nicknameRe = `<h1 class="nickName"[^>]*>([^<]*)</h1>`
 var ageCompile = regexp.MustCompile(ageRe)
 var nicknameCompile = regexp.MustCompile(nicknameRe)
 
-func ParseProfile(contents []byte) engine.ParseResult {
+func ParseProfile(contents []byte, name string) engine.ParseResult {
 	match := ageCompile.FindSubmatch(contents)
 
 	profile := model.Profile{}
+	profile.Name = name
 
 	if match != nil {
 		age, err := strconv.Atoi(extractString(contents, ageCompile))
@@ -24,8 +25,6 @@ func ParseProfile(contents []byte) engine.ParseResult {
 			profile.Age = age
 		}
 	}
-
-	profile.Marriage = extractString(contents, nicknameCompile)
 
 	result := engine.ParseResult{
 		Items: []interface{}{profile},
