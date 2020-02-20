@@ -10,7 +10,7 @@ func main() {
 	// resp, err := http.Get("http://www.zhenai.com/zhenghun")
 
 	e := engine.ConcurrentEngine{
-		Scheduler:   &scheduler.SimpleScheduler{},
+		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
 	}
 	e.Run(engine.Request{
