@@ -45,6 +45,7 @@ func createWorker(out chan ParseResult, s Scheduler) {
 	in := make(chan Request)
 	go func() {
 		for {
+			// re-register chan Request
 			s.WorkerReady(in)
 			request := <-in
 			result, err := worker(request)
