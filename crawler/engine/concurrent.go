@@ -1,8 +1,6 @@
 package engine
 
 import (
-	"eg/egolang/crawler/model"
-	"fmt"
 	"log"
 )
 
@@ -37,14 +35,14 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		e.Scheduler.Submit(r)
 	}
 
-	profileCount := 0
+	itemCount := 0
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			if _, ok := item.(model.Profile); ok {
-				fmt.Printf("Got item #%d: %v", profileCount, item)
-			}
-			profileCount++
+			// if _, ok := item.(model.Profile); ok {
+			log.Printf("Got item #%d: %v", itemCount, item)
+			// }
+			itemCount++
 		}
 
 		for _, request := range result.Requests {
