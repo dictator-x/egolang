@@ -13,9 +13,14 @@ func main() {
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
 	}
+	// e.Run(engine.Request{
+	// 	Url:        "http://www.zhenai.com/zhenghun",
+	// 	ParserFunc: parser.ParseCityList,
+	// })
+
 	e.Run(engine.Request{
-		Url:        "http://www.zhenai.com/zhenghun",
-		ParserFunc: parser.ParseCityList,
+		Url:        "http://www.zhenai.com/zhenghun/shanghai",
+		ParserFunc: parser.ParseCity,
 	})
 
 	// fmt.Printf("%s\n", all)
