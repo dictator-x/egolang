@@ -1,7 +1,9 @@
 package engine
 
 import (
+	"eg/egolang/crawler/model"
 	"fmt"
+	"log"
 )
 
 type Scheduler interface {
@@ -28,23 +30,25 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	}
 
 	for _, r := range seeds {
-		if isDuplicate(request) {
-			log.Printf("Duplicate request: %s", request.Url)
+		if isDuplicate(r.Url) {
 			continue
 		}
 
 		e.Scheduler.Submit(r)
 	}
 
+	profileCount := 0
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			fmt.Printf("Got item: %v\n", item)
+			if _, ok := item.(model.Profile); ok {
+				fmt.Printf("Got item #%d: %v", profileCount, item)
+			}
+			profileCount++
 		}
 
 		for _, request := range result.Requests {
-			if isDuplicate(request) {
-				log.Printf("Duplicate request: %s", request.Url)
+			if isDuplicate(request.Url) {
 				continue
 			}
 			e.Scheduler.Submit(request)
