@@ -11,7 +11,7 @@ func TestParseProfile(t *testing.T) {
 		panic(err)
 	}
 
-	result := ParseProfile(contents, "nickname")
+	result := ParseProfile(contents, "http://album.zhenai.com/u/1089036739", "nickname")
 
 	if len(result.Items) != 1 {
 		t.Errorf("Items should contain 1 element; but was %v", result.Items)

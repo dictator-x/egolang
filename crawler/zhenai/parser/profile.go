@@ -9,16 +9,17 @@ import (
 
 var ageRe = `<div[^>]*>([0-9]*)岁</div>`
 var nicknameRe = `<h1 class="nickName"[^>]*>([^<]*)</h1>`
+var idRe = `http://album.zhenai.com/u/([0-9]+)`
 
 var ageCompile = regexp.MustCompile(ageRe)
 var nicknameCompile = regexp.MustCompile(nicknameRe)
+var idCompile = regexp.MustCompile(idRe)
 
-func ParseProfile(contents []byte, name string) engine.ParseResult {
-	match := ageCompile.FindSubmatch(contents)
-
+func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
 	profile := model.Profile{}
 	profile.Name = name
 
+	match := ageCompile.FindSubmatch(contents)
 	if match != nil {
 		age, err := strconv.Atoi(extractString(contents, ageCompile))
 		if err == nil {
@@ -27,7 +28,14 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 	}
 
 	result := engine.ParseResult{
-		Items: []interface{}{profile},
+		Items: []engine.Item{
+			{
+				Url:     url,
+				Type:    "zhenai",
+				Id:      extractString([]byte(url), idCompile),
+				Payload: profile,
+			},
+		},
 	}
 
 	return result
