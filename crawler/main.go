@@ -2,6 +2,7 @@ package main
 
 import (
 	"eg/egolang/crawler/engine"
+	"eg/egolang/crawler/persist"
 	"eg/egolang/crawler/scheduler"
 	"eg/egolang/crawler/zhenai/parser"
 )
@@ -12,6 +13,7 @@ func main() {
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
+		ItemChan:    persist.ItemSaver(),
 	}
 	// e.Run(engine.Request{
 	// 	Url:        "http://www.zhenai.com/zhenghun",
