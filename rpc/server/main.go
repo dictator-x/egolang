@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+
 	rpc.Register(rpcdemo.DemoService{})
 	listener, err := net.Listen("tcp", ":1234")
 	if err != nil {
@@ -23,4 +24,5 @@ func main() {
 		}
 		go jsonrpc.ServeConn(conn)
 	}
+
 }
