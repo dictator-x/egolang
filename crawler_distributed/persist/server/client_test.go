@@ -3,6 +3,7 @@ package main
 import (
 	"eg/egolang/crawler/engine"
 	"eg/egolang/crawler/model"
+	"eg/egolang/crawler_distributed/config"
 	"eg/egolang/crawler_distributed/rpcsupport"
 	"testing"
 	"time"
@@ -29,7 +30,7 @@ func TestItemSaver(t *testing.T) {
 	}
 
 	result := ""
-	client.Call("ItemSaverService.Save", item, &result)
+	client.Call(config.ItemSaverRpc, item, &result)
 
 	if err != nil || result != "ok" {
 		t.Errorf("result: %s; err: %s", result, err)
