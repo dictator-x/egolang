@@ -37,6 +37,7 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	for {
 		result := <-out
 		for _, item := range result.Items {
+			// main will create ItemChan. ItemChan can be assign to persist service.
 			go func() { e.ItemChan <- item }()
 		}
 
@@ -67,7 +68,7 @@ func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
 			// re-register chan Request
 			ready.WorkerReady(in)
 			request := <-in
-			result, err := worker(request)
+			result, err := Worker(request)
 			if err != nil {
 				continue
 			}
