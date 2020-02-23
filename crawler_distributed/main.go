@@ -5,22 +5,29 @@ import (
 	"eg/egolang/crawler/scheduler"
 	"eg/egolang/crawler/zhenai/parser"
 	"eg/egolang/crawler_distributed/config"
-	"eg/egolang/crawler_distributed/persist/client"
+	itemsaver "eg/egolang/crawler_distributed/persist/client"
+	worker "eg/egolang/crawler_distributed/worker/client"
 	"fmt"
 )
 
 func main() {
 	// resp, err := http.Get("http://www.zhenai.com/zhenghun")
 
-	itemChan, err := client.ItemSaver(fmt.Sprintf(":%d", config.ItemSaverPort))
+	itemChan, err := itemsaver.ItemSaver(fmt.Sprintf(":%d", config.ItemSaverPort))
+	if err != nil {
+		panic(err)
+	}
+
+	processor, err := worker.CreateProcessor()
 	if err != nil {
 		panic(err)
 	}
 
 	e := engine.ConcurrentEngine{
-		Scheduler:   &scheduler.QueuedScheduler{},
-		WorkerCount: 10,
-		ItemChan:    itemChan,
+		Scheduler:        &scheduler.QueuedScheduler{},
+		WorkerCount:      100,
+		ItemChan:         itemChan,
+		RequestProcessor: processor,
 	}
 	e.Run(engine.Request{
 		Url:    "http://www.zhenai.com/zhenghun",
