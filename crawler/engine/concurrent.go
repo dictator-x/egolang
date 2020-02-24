@@ -1,6 +1,8 @@
 package engine
 
-import ()
+import (
+	"log"
+)
 
 type Scheduler interface {
 	ReadyNotifier
@@ -73,6 +75,7 @@ func (e *ConcurrentEngine) createWorker(in chan Request, out chan ParseResult, r
 			request := <-in
 			result, err := e.RequestProcessor(request)
 			if err != nil {
+				log.Printf("err: %v", err)
 				continue
 			}
 			out <- result
