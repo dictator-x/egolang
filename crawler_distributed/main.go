@@ -40,15 +40,15 @@ func main() {
 		ItemChan:         itemChan,
 		RequestProcessor: processor,
 	}
-	// e.Run(engine.Request{
-	// 	Url:    "http://www.zhenai.com/zhenghun",
-	// 	Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList"),
-	// })
-
 	e.Run(engine.Request{
-		Url:    "http://www.zhenai.com/zhenghun/shanghai",
-		Parser: engine.NewFuncParser(parser.ParseCity, "ParseCity"),
+		Url:    "http://www.zhenai.com/zhenghun",
+		Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList"),
 	})
+
+	// e.Run(engine.Request{
+	// 	Url:    "http://www.zhenai.com/zhenghun/shanghai",
+	// 	Parser: engine.NewFuncParser(parser.ParseCity, "ParseCity"),
+	// })
 
 	// fmt.Printf("%s\n", all)
 	// printCityList(all)
