@@ -39,6 +39,7 @@ func (s *QueuedScheduler) Run() {
 				requestQ = append(requestQ, r)
 			case w := <-s.workerChan:
 				workerQ = append(workerQ, w)
+			// Assign request to a worker
 			case activeWorker <- activeRequest:
 				workerQ = workerQ[1:]
 				requestQ = requestQ[1:]
